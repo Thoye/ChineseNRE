@@ -45,7 +45,16 @@ with codecs.open('train.txt','r','utf-8') as tfc:
         
 print total_data,len(datas)
 
-from compiler.ast import flatten
+import collections
+def flatten(x):
+    result = []
+    for el in x:
+        if isinstance(x, collections.Iterable) and not isinstance(el, str):
+            result.extend(flatten(el))
+        else:
+            result.append(el)
+    return result
+
 all_words = flatten(datas)
 sr_allwords = pd.Series(all_words)
 sr_allwords = sr_allwords.value_counts()
